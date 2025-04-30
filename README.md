@@ -45,10 +45,22 @@ To ensure your control unit is supported, please refer to the [Micro Epsilon man
 
 ## Usage
 
-Before using the library, install it by following the [installation instructions](#installation) below, and then add the package to you CMake project:
+Before using the library, install it by following the [installation instructions](#installation) and then add the package to you CMake project:
 
 ```cmake
+cmake_minimum_required(VERSION 3.10)
+project(your_project)
+
+# find the package
 find_package(capancdt_proximity_sensor REQUIRED)
+
+# your executable
+add_executable(my_app src/main.cpp)
+
+# link the library to your executable
+target_link_libraries(my_app
+  PRIVATE capancdt_proximity_sensor::capancdt_proximity_sensor_lib
+)
 ```
 
 Using the library is straightforward. This example demonstrates how to read data from a proximity sensor connected to a capa NCDT control unit. Ensure you provide the correct measuring range of the sensor you are using according to it's specifications. For instance the CS02 sensor has a measuring range of 0-2mm, hence the measuring range is 2000 in micrometers. The channel number is the number of the channel your sensor is connected to on the control unit, starting from 1. The capaNCDT 6200 control unit for instance supports up to 4 channels, all of which can be used simultaneously.

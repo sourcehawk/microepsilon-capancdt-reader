@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 
 The library provides a mock implementation of the `ProximityConnection` class that can be used for testing and development purposes. This allows you to simulate the behavior of a real sensor without needing to connect to an actual device.
 
-In this snippet, we create a mock connection, construct a mock message, and set the mock data to be returned by the mock connection. The mock message is then encoded and used to simulate the behavior of a real sensor.
+In this snippet, we create a mock connection, construct a mock message, and encode it to the mock data buffer to be returned by the mock connection on recv calls.
 
 ```cpp
 ProximityConnection* conn;

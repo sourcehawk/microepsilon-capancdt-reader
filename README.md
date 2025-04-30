@@ -1,6 +1,6 @@
 # Micro Epsilon capa NCDT reader
 
-This is a simple c++ library created to read data from supported proximity sensors connected [Micro Epsilon's capa NCDT](https://www.micro-epsilon.com/distance-sensors/capacitive-sensors/) control units. The control unit communication is done over a network connection using TCP/IP.
+This is a simple c++ library created to read data from supported proximity sensors connected to [Micro Epsilon's capa NCDT](https://www.micro-epsilon.com/distance-sensors/capacitive-sensors/) control units. The control unit communication is done over a network connection using TCP/IP.
 
 It was specifically developed to read data from the capa NCDT 6200 control units, but it should work with other capa NCDT control units if they adhere to the same messaging protocol.
 

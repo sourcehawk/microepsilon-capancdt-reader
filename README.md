@@ -18,7 +18,7 @@ To ensure your control unit is supported, please refer to the [Micro Epsilon man
 1. Clone the repository:
 
    ```bash
-   git clone
+   git clone git@github.com:sourcehawk/microepsilon-capancdt-reader.git
    ```
 
 2. Navigate to the project directory:

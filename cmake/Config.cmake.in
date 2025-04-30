@@ -1,0 +1,6 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/capancdt_proximity_sensorTargets.cmake")
+
+# Optionally set variables for downstream consumers:
+# set(CAPANCDT_PROXIMITY_SENSOR_INCLUDE_DIRS "@PACKAGE_INSTALL_INCLUDEDIR@")

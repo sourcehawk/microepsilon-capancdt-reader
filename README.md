@@ -131,6 +131,12 @@ Where:
 
 ## Development
 
+Install GTest for testing. On ubuntu you can do this with:
+
+```bash
+sudo apt-get install libgtest-dev
+```
+
 Follow the installation instructions above to set up the project. The library uses CMake for building and testing. To run the tests, ensure you have the `BUILD_TESTING` option enabled in your CMake configuration.
 
 Testing:

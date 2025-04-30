@@ -63,7 +63,11 @@ target_link_libraries(my_app
 )
 ```
 
-Using the library is straightforward. This example demonstrates how to read data from a proximity sensor connected to a capa NCDT control unit. Ensure you provide the correct measuring range of the sensor you are using according to it's specifications. For instance the CS02 sensor has a measuring range of 0-2mm, hence the measuring range is 2000 in micrometers. The channel number is the number of the channel your sensor is connected to on the control unit, starting from 1. The capaNCDT 6200 control unit for instance supports up to 4 channels, all of which can be used simultaneously.
+Using the library is straightforward. This example demonstrates how to read data from a proximity sensor connected to a capa NCDT control unit.
+
+Ensure you provide the correct measuring range of the sensor you are using according to it's specifications. For instance the CS02 sensor has a measuring range of 0-2mm, hence the measuring range is 2000 in micrometers.
+
+The channel number is the number of the channel your sensor is connected to on the control unit, starting from 1. The capaNCDT 6200 control unit for instance supports up to 4 channels, all of which can be used simultaneously.
 
 For more information on the library interface, please refer to the [header files](include/capancdt/proximity_sensor.h).
 
@@ -118,7 +122,7 @@ int main(int argc, char **argv)
 The library provides a standalone binary that can be used to read data from the capa NCDT control unit and output the measurements to the console. After installing the library, the binary can be found in the `bin` directory. The binary is called `capancdt_read_sensor` amd can be used as follows:
 
 ```bash
-capancdt_read_sensor <ip> <port> <rate> <channel> <range>
+./capancdt_read_sensor <ip> <port> <rate> <channel> <range>
 ```
 
 Where:
@@ -126,7 +130,7 @@ Where:
 - `<ip>`: The IP address of the capa NCDT control unit.
 - `<port>`: The port number of the capa NCDT control unit.
 - `<rate>`: The read rate in Hz (e.g., 10.0 for 10 Hz).
-- `<channel>`: The channel number of the sensor (1, 2, 3, or 4).
+- `<channel>`: The channel number of the sensor (1, 2, 3, 4...).
 - `<range>`: The measuring range of the sensor in micrometers (e.g., 2000 for a 0-2mm sensor).
 
 ## Development

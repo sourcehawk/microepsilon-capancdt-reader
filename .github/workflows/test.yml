@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential libgtest-dev lcov
+
+      - name: Configure & build (with coverage)
+        run: cmake -S . -B build \
+          -DENABLE_COVERAGE=ON \
+          -DBUILD_TESTING=ON \
+          -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Zero coverage counters
+        run: lcov --directory build --zerocounters
+
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Capture coverage
+        run: lcov \
+          --directory build \
+          --capture \
+          --output-file coverage.info
+
+      - name: Filter coverage
+        run: lcov \
+          --remove coverage.info \
+          '/usr/*' '*/test/*' \
+          --output-file coverage.filtered.info
+
+      - name: Generate HTML report
+        run: genhtml coverage.filtered.info --output-directory coverage-report
+
+      - name: Upload coverage-report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage-report
+
+      # Optional: push to Codecov (requires you set CODECOV_TOKEN in secrets)
+      # - name: Upload to Codecov
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     files: coverage.filtered.info
+      #     fail_ci_if_error: true

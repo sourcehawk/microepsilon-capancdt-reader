@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-// #include <endian.h>
 #include <memory>
 #include "capancdt/proximity_sensor_message.h"
 

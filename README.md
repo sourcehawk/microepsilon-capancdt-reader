@@ -30,10 +30,12 @@ To ensure your control unit is supported, please refer to the [Micro Epsilon man
 3. Build the project:
 
    ```bash
-   mkdir build
+   cmake -S . -B build \
+    -DENABLE_COVERAGE=OFF \
+    -DBUILD_TESTING=OFF \
+    -DCMAKE_BUILD_TYPE=Debug
+
    cd build
-   # use flag -DBUILD_TESTING=ON to build the tests
-   cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
    make
    ```
 
@@ -184,13 +186,22 @@ Where:
 
 ## Development
 
-Install GTest for testing. On ubuntu you can do this with:
+Install GTest and lcov for testing. On ubuntu you can do this with:
 
 ```bash
-sudo apt-get install libgtest-dev
+sudo apt-get install libgtest-dev lcov
 ```
 
-Follow the installation instructions above to set up the project. The library uses CMake for building and testing. To run the tests, ensure you have the `BUILD_TESTING` option enabled in your CMake configuration.
+Build the project:
+
+```bash
+cmake -S . -B build \
+  -DENABLE_COVERAGE=OFF \
+  -DBUILD_TESTING=OFF \
+  -DCMAKE_BUILD_TYPE=Debug
+
+cmake --build build --parallel
+```
 
 Testing:
 

@@ -82,6 +82,17 @@ install(
   DESTINATION ${config_package_location}
 )
 
+option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
+if(ENABLE_COVERAGE)
+  message(STATUS "Building with coverage support")
+  # GCC/Clang coverage instrumentation
+  set(CMAKE_CXX_FLAGS        "${CMAKE_CXX_FLAGS}        --coverage -O0 -g")
+  set(CMAKE_C_FLAGS          "${CMAKE_C_FLAGS}          --coverage -O0 -g")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
+endif()
+
+
 option(BUILD_TESTING "Enable unit tests" ON)
 if(BUILD_TESTING)
   enable_testing()

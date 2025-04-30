@@ -117,6 +117,55 @@ int main(int argc, char **argv)
 }
 ```
 
+## Mocking sensors in development
+
+The library provides a mock implementation of the `ProximityConnection` class that can be used for testing and development purposes. This allows you to simulate the behavior of a real sensor without needing to connect to an actual device.
+
+In this snippet, we create a mock connection, construct a mock message, and set the mock data to be returned by the mock connection. The mock message is then encoded and used to simulate the behavior of a real sensor.
+
+```cpp
+ProximityConnection* conn;
+
+if (mock) {
+    ProximityMockConnection* mock_conn = new ProximityMockConnection();
+
+    // Create a mock message header
+    ProximitySensorMessageHeader mock_header {};
+    memcpy(mock_header.preamble, MESSAGE_HEADER_PREAMBLE_C, sizeof(mock_header.preamble));
+    mock_header.order               = 69;
+    mock_header.serial              = 12345;
+    mock_header.channels            = 0x0000'0000'0000'0001u << ((channel-1)*2);
+    mock_header.status              = 0;
+    mock_header.frame_count         = 1;
+    mock_header.bytes_per_frame     = 4;
+    mock_header.start_sample_number = 1;
+
+    // Create a buffer to hold the encoded message
+    size_t payload_size = mock_header.payload_size();
+    char* messages = new char[payload_size];
+
+    // Create a mock message with the header
+    auto header_ptr = std::make_unique<ProximitySensorMessageHeader>(mock_header);
+    ProximitySensorMessage mock_message = ProximitySensorMessage(std::move(header_ptr));
+    mock_message.set_channel_value(1, ChannelValue(
+        mock_header.start_sample_number,
+        // This is the value that will be returned by the mock sensor
+        ChannelValue::from_micrometers(2000.0, range)
+    ));
+
+    // Encode the mock message to the messages buffer
+    mock_message.encode(messages, payload_size);
+    // Set the mock data to return on recv calls
+    mock_conn->set_recv_data(messages, payload_size);
+    // Assign the mock connection to the abstract connection
+    conn = mock_conn;
+} else {
+    conn = new ProximitySocketConnection(ip, port);
+}
+
+ProximitySensor* proximity_sensor = new ProximitySensor(conn, rate, 2.0);
+```
+
 ## Provided verification binary
 
 The library provides a standalone binary that can be used to read data from the capa NCDT control unit and output the measurements to the console. After installing the library, the binary can be found in the `bin` directory. The binary is called `capancdt_read_sensor` amd can be used as follows:

@@ -4,7 +4,7 @@ This is a simple c++ library created to read data from supported proximity senso
 
 It was specifically developed to read data from the capa NCDT 6200 control units, but it should work with other capa NCDT control units if they adhere to the same messaging protocol.
 
-To ensure your control unit is supported, please refer to the [Micro Epsilon manuals](https://www.micro-epsilon.com/distance-sensors/capacitive-sensors/capancdt-6200/) for more information on the messaging protocol.
+To ensure your control unit is supported, please refer to the [Micro Epsilon manuals](https://www.micro-epsilon.com/distance-sensors/capacitive-sensors/capancdt-6200/) for more information on the messaging protocol and compare it to the one that NCDT 6200 uses.
 
 ## Features
 

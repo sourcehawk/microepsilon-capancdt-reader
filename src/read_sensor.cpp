@@ -5,18 +5,7 @@
 #include "capancdt/proximity_sensor.h"
 
 /*
- * A simple binary you can copy to a device and run independently to test the sensor
- *
- * First build the project, then copy the binary to the device:
- * catkin build dte_proximity_sensor
- * scp devel/.private/dte_proximity_sensor/lib/dte_proximity_sensor/read_sensor nordural_gr_p1:/~read_sensor
- * 
- * Then run the binary on the device:
- * ssh nordural_gr_p1
- * sudo su
- * cd /home/svc_ansible
- * chmod +x read_sensor
- * ./read_sensor 10.150.1.6 10001 104 1 5000
+ * A simple standalone binary you can copy to a device and run independently to test the sensor
  */
 
 using namespace proximity_sensor;

@@ -39,8 +39,11 @@ jobs:
       - name: Capture coverage
         run: lcov -c -d build/CMakeFiles/capancdt_proximity_sensor_lib.dir/src -o coverage.info
 
+      - name: Filter coverage
+        run: lcov -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info
+
       - name: Generate HTML report
-        run: genhtml coverage.info --output-directory coverage-report
+        run: genhtml coverage.filtered.info --output-directory coverage-report
 
       - name: Upload coverage-report
         uses: actions/upload-artifact@v4
@@ -52,5 +55,5 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage.info
+          files: coverage.filtered.info
           fail_ci_if_error: true

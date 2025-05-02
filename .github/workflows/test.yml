@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -18,24 +18,31 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y cmake build-essential libgtest-dev lcov
           cd /usr/src/googletest
-          sudo cmake .
-          sudo make
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          make --build build
           sudo make install
 
       - name: Configure & build (with coverage)
-        run: cmake -S . -B build \
+        run: |
+          cmake -S . -B build \
           -DENABLE_COVERAGE=ON \
           -DBUILD_TESTING=ON \
           -DCMAKE_BUILD_TYPE=Debug
 
-      - name: Build
-        run: cmake --build build --parallel
+          cmake --build build --parallel
 
       - name: Zero coverage counters
         run: lcov -d build -z
 
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
+
+      - name: Debug coverage output
+        run: |
+          echo "=== .gcno files in build ==="
+          find build -type f -name '*.gcno' || echo "(none)"
+          echo "=== .gcda files anywhere ==="
+          find . -type f -name '*.gcda' || echo "(none)"
 
       - name: Capture coverage
         run: lcov -d build -c -o coverage.info

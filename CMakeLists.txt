@@ -3,12 +3,11 @@ project(capancdt_proximity_sensor_lib LANGUAGES CXX)
 
 option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
 if(ENABLE_COVERAGE)
-message(STATUS "Building with coverage support")
-# GCC/Clang coverage instrumentation
-set(CMAKE_CXX_FLAGS        "${CMAKE_CXX_FLAGS}        --coverage -O0 -g")
-set(CMAKE_C_FLAGS          "${CMAKE_C_FLAGS}          --coverage -O0 -g")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
+  message(STATUS "Building with coverage instrumentation")
+  set(COVERAGE_FLAGS "--coverage -O0 -g")
+  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} ${COVERAGE_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COVERAGE_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

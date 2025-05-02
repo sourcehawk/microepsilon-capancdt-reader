@@ -8,7 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
@@ -19,13 +22,13 @@ jobs:
           sudo apt-get install -y cmake build-essential libgtest-dev lcov
 
       - name: Configure & build (with coverage)
-        run: cmake -S . -B build \
+        run: |
+          cmake -S . -B build \
           -DENABLE_COVERAGE=ON \
           -DBUILD_TESTING=ON \
           -DCMAKE_BUILD_TYPE=Debug
 
-      - name: Build
-        run: cmake --build build --parallel
+          cmake --build build --parallel
 
       - name: Zero coverage counters
         run: lcov -d build -z
@@ -34,10 +37,10 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
       - name: Capture coverage
-        run: lcov -d build -c -o coverage.info
+        run: lcov -c -d build/CMakeFiles/capancdt_proximity_sensor_lib.dir/src -o coverage.info
 
       - name: Filter coverage
-        run: lcov -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info
+        run: lcov --ignore-errors unused -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info
 
       - name: Generate HTML report
         run: genhtml coverage.filtered.info --output-directory coverage-report
@@ -45,7 +48,7 @@ jobs:
       - name: Upload coverage-report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-report-${{ matrix.os }}
           path: coverage-report
 
       - name: Upload coverage reports to Codecov

@@ -188,6 +188,15 @@ Install GTest and lcov for testing. On ubuntu you can do this with:
 sudo apt-get install libgtest-dev lcov
 ```
 
+You may need to build GTest:
+
+```bash
+cd /usr/src/googletest
+sudo cmake .
+sudo make
+sudo make install
+```
+
 Build the project:
 
 ```bash

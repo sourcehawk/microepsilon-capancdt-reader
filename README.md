@@ -4,7 +4,7 @@ This is a simple c++ library created to read data from supported proximity senso
 
 It was specifically developed to read data from the capa NCDT 6200 control units, but it should work with other capa NCDT control units if they adhere to the same messaging protocol.
 
-To ensure your control unit is supported, please refer to the [Micro Epsilon manuals](https://www.micro-epsilon.com/distance-sensors/capacitive-sensors/capancdt-6200/) for more information on the messaging protocol and compare it to the one that NCDT 6200 uses.
+To ensure your control unit is supported, please refer to the [Micro Epsilon manuals](https://www.micro-epsilon.com/distance-sensors/capacitive-sensors/capancdt-6200/) and compare the messaging protocol with the one that NCDT 6200 uses.
 
 ## Features
 
@@ -30,11 +30,7 @@ To ensure your control unit is supported, please refer to the [Micro Epsilon man
 3. Build the project:
 
    ```bash
-   cmake -S . -B build \
-    -DENABLE_COVERAGE=OFF \
-    -DBUILD_TESTING=OFF \
-    -DCMAKE_BUILD_TYPE=Debug
-
+   cmake -S . -B build
    cd build
    make
    ```
@@ -65,13 +61,13 @@ target_link_libraries(my_app
 )
 ```
 
-Using the library is straightforward. This example demonstrates how to read data from a proximity sensor connected to a capa NCDT control unit.
+Using the library is straightforward. The below example demonstrates how to read data from a proximity sensor connected to a capa NCDT control unit.
 
 Ensure you provide the correct measuring range of the sensor you are using according to it's specifications. For instance the CS02 sensor has a measuring range of 0-2mm, hence the measuring range is 2000 in micrometers.
 
 The channel number is the number of the channel your sensor is connected to on the control unit, starting from 1. The capaNCDT 6200 control unit for instance supports up to 4 channels, all of which can be used simultaneously.
 
-For more information on the library interface, please refer to the [header files](include/capancdt/proximity_sensor.h).
+For more information on the library interface, please refer to the [header files](include/capancdt/).
 
 ```cpp
 #include <iostream>
@@ -170,7 +166,7 @@ ProximitySensor* proximity_sensor = new ProximitySensor(conn, rate, 2.0);
 
 ## Provided verification binary
 
-The library provides a standalone binary that can be used to read data from the capa NCDT control unit and output the measurements to the console. After installing the library, the binary can be found in the `bin` directory. The binary is called `capancdt_read_sensor` amd can be used as follows:
+The library provides a standalone binary that can be used to read data from the capa NCDT control unit and output the measurements to the console. After installing the library, the binary can be found in the `bin` directory (f.x `/usr/local/bin/`). The binary is called `capancdt_read_sensor` and can be used as follows:
 
 ```bash
 ./capancdt_read_sensor <ip> <port> <rate> <channel> <range>
@@ -196,8 +192,8 @@ Build the project:
 
 ```bash
 cmake -S . -B build \
-  -DENABLE_COVERAGE=OFF \
-  -DBUILD_TESTING=OFF \
+  -DENABLE_COVERAGE=ON \
+  -DBUILD_TESTING=ON \
   -DCMAKE_BUILD_TYPE=Debug
 
 cmake --build build --parallel
@@ -205,4 +201,4 @@ cmake --build build --parallel
 
 Testing:
 
-> make test
+> cd build && make test

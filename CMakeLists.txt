@@ -4,9 +4,8 @@ project(capancdt_proximity_sensor_lib LANGUAGES CXX)
 option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
 if(ENABLE_COVERAGE)
   message(STATUS "Building with coverage instrumentation")
-  # apply to *all* subsequent targets
-  add_compile_options(--coverage -O0 -g)
-  add_link_options(--coverage)
+  add_compile_options(-fprofile-arcs -ftest-coverage -O0 -g)
+  add_link_options(-fprofile-arcs -ftest-coverage)
 endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

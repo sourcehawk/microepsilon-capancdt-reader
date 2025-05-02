@@ -194,7 +194,7 @@ You may need to build GTest:
 cd /usr/src/googletest
 sudo cmake .
 sudo make
-sudo cp *.a /usr/lib
+sudo make install
 ```
 
 Build the project:

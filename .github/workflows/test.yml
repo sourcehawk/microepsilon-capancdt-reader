@@ -17,6 +17,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake build-essential libgtest-dev lcov
+          cd /usr/src/googletest
+          sudo cmake .
+          sudo make
+          sudo make install
 
       - name: Configure & build (with coverage)
         run: cmake -S . -B build \
@@ -34,13 +38,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
       - name: Capture coverage
-        run: |
-          cd build
-          # TODO: remove
-          find . -name '*.gcda'
-          lcov -d . -c -o coverage.info
-          # move the report back up so the next steps can find it
-          mv coverage.info ..
+        run: lcov -d build -c -o coverage.info
 
       - name: Filter coverage
         run: lcov -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info

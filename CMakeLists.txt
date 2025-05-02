@@ -1,8 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 project(capancdt_proximity_sensor_lib LANGUAGES CXX)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
+if(ENABLE_COVERAGE)
+message(STATUS "Building with coverage support")
+# GCC/Clang coverage instrumentation
+set(CMAKE_CXX_FLAGS        "${CMAKE_CXX_FLAGS}        --coverage -O0 -g")
+set(CMAKE_C_FLAGS          "${CMAKE_C_FLAGS}          --coverage -O0 -g")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
+endif()
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 include(CMakePackageConfigHelpers)
 set(config_package_location lib/cmake/capancdt_proximity_sensor)
 
@@ -81,17 +90,6 @@ install(
     "${CMAKE_CURRENT_BINARY_DIR}/capancdt_proximity_sensorConfigVersion.cmake"
   DESTINATION ${config_package_location}
 )
-
-option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
-if(ENABLE_COVERAGE)
-  message(STATUS "Building with coverage support")
-  # GCC/Clang coverage instrumentation
-  set(CMAKE_CXX_FLAGS        "${CMAKE_CXX_FLAGS}        --coverage -O0 -g")
-  set(CMAKE_C_FLAGS          "${CMAKE_C_FLAGS}          --coverage -O0 -g")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
-endif()
-
 
 option(BUILD_TESTING "Enable unit tests" ON)
 if(BUILD_TESTING)

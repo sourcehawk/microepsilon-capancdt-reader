@@ -28,22 +28,16 @@ jobs:
         run: cmake --build build --parallel
 
       - name: Zero coverage counters
-        run: lcov --directory build --zerocounters
+        run: lcov -d build -z
 
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
 
       - name: Capture coverage
-        run: lcov \
-          --directory build \
-          --capture \
-          --output-file coverage.info
+        run: lcov -d build -c -o coverage.info
 
       - name: Filter coverage
-        run: lcov \
-          --remove coverage.info \
-          '/usr/*' '*/test/*' \
-          --output-file coverage.filtered.info
+        run: lcov -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info
 
       - name: Generate HTML report
         run: genhtml coverage.filtered.info --output-directory coverage-report
@@ -54,9 +48,9 @@ jobs:
           name: coverage-report
           path: coverage-report
 
-      # Optional: push to Codecov (requires you set CODECOV_TOKEN in secrets)
-      # - name: Upload to Codecov
-      #   uses: codecov/codecov-action@v3
-      #   with:
-      #     files: coverage.filtered.info
-      #     fail_ci_if_error: true
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.filtered.info
+          fail_ci_if_error: true

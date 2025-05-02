@@ -17,10 +17,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake build-essential libgtest-dev lcov
-          cd /usr/src/googletest
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
-          make --build build
-          sudo make install
 
       - name: Configure & build (with coverage)
         run: |

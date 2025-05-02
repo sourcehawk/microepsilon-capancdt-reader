@@ -8,7 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
@@ -33,31 +36,21 @@ jobs:
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
 
-      - name: Debug coverage output
-        run: |
-          echo "=== .gcno files in build ==="
-          find build -type f -name '*.gcno' || echo "(none)"
-          echo "=== .gcda files anywhere ==="
-          find . -type f -name '*.gcda' || echo "(none)"
-
       - name: Capture coverage
-        run: lcov -d build -c -o coverage.info
-
-      - name: Filter coverage
-        run: lcov -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info
+        run: lcov -c -d build/CMakeFiles/capancdt_proximity_sensor_lib.dir/src -o coverage.info
 
       - name: Generate HTML report
-        run: genhtml coverage.filtered.info --output-directory coverage-report
+        run: genhtml coverage.info --output-directory coverage-report
 
       - name: Upload coverage-report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-report-${{ matrix.os }}
           path: coverage-report
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage.filtered.info
+          files: coverage.info
           fail_ci_if_error: true

@@ -40,7 +40,7 @@ jobs:
         run: lcov -c -d build/CMakeFiles/capancdt_proximity_sensor_lib.dir/src -o coverage.info
 
       - name: Filter coverage
-        run: lcov -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info
+        run: lcov --ignore-errors unused -r coverage.info '/usr/*' '*/test/*' -o coverage.filtered.info
 
       - name: Generate HTML report
         run: genhtml coverage.filtered.info --output-directory coverage-report

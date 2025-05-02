@@ -13,6 +13,12 @@ To ensure your control unit is supported, please refer to the [Micro Epsilon man
 - Configurable read rate
 - Simple and easy-to-use API
 
+## Compatibility
+
+The code is compatible with C++11 and later versions. It has been tested on Linux systems and may need modifications to work on other platforms such as Windows or macOS. More specifically, the socket connection code may need to be adapted for non-POSIX system, but that should be as simple as including the correct headers and using the correct socket functions.
+
+The CI tests are running on Ubuntu 22.04 and 24.04, but the code has also been compiled and executed on ubuntu 18.04.
+
 ## Installation
 
 1. Clone the repository:

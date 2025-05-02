@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/sourcehawk/microepsilon-capancdt-reader/graph/badge.svg?token=2BXAU5R0RQ)](https://codecov.io/gh/sourcehawk/microepsilon-capancdt-reader)
+
 # Micro Epsilon capa NCDT reader
 
 This is a simple c++ library created to read data from supported proximity sensors connected to [Micro Epsilon's capa NCDT](https://www.micro-epsilon.com/distance-sensors/capacitive-sensors/) control units. The control unit communication is done over a network connection using TCP/IP.
